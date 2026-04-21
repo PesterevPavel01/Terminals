@@ -1,0 +1,6 @@
+@Terminal.WebApi_HostAddress = http://localhost:5239
+
+GET {{Terminal.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

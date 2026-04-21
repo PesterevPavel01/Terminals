@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-TerminalDataLoader.SyncService-35247cb8-a8d1-46d8-af07-1a8a8f80c10a</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Calabonga.Results" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Terminals.AddressParser\Terminals.AddressParser.csproj" />
+    <ProjectReference Include="..\Terminals.Contracts\Terminals.Contracts.csproj" />
+    <ProjectReference Include="..\Terminals.Infrastructure\Terminals.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>
