@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Terminals.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,9 +18,9 @@ namespace Terminals.Infrastructure.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    CityCode = table.Column<string>(type: "text", nullable: false),
+                    CityCode = table.Column<int>(type: "integer", nullable: false),
                     Uuid = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
-                    Type = table.Column<int>(type: "integer", maxLength: 20, nullable: true),
+                    Type = table.Column<int>(type: "integer", nullable: true),
                     CountryCode = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     AddressRegion = table.Column<string>(type: "text", nullable: true),
                     AddressCity = table.Column<string>(type: "text", nullable: true),
@@ -40,6 +40,11 @@ namespace Terminals.Infrastructure.Migrations
                 name: "IX_Office_AddressCity",
                 table: "Office",
                 column: "AddressCity");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Office_AddressCity_AddressRegion",
+                table: "Office",
+                columns: new[] { "AddressCity", "AddressRegion" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Office_Uuid",

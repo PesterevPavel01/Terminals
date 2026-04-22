@@ -14,10 +14,16 @@ public sealed class WriteToDBExecutor : IWriteToDBExecutor
 
     private readonly IAddressParser _addressParser;
 
-    public WriteToDBExecutor(DellinDictionaryDbContext dbContext, IAddressParser addressParser)
+    private readonly IWorkTimeParser _workTimeParser;
+
+    public WriteToDBExecutor(
+        DellinDictionaryDbContext dbContext, 
+        IAddressParser addressParser,
+        IWorkTimeParser workTimeParser)
     {
         _dbContext = dbContext;
         _addressParser = addressParser;
+        _workTimeParser = workTimeParser;
     }
 
     public async Task<Operation<int, List<string>>> ExecuteAsync(CityTerminalsDto cityTerminals, CancellationToken cancellationToken)
@@ -60,11 +66,19 @@ public sealed class WriteToDBExecutor : IWriteToDBExecutor
                     continue;
                 }
 
+                var workTimeResult = _workTimeParser.Pars(terminal.Worktables);
+
+                if (!workTimeResult.Ok)
+                {
+                    errors.Add($"Terminal {terminal.Id}. {workTimeResult.Error}");
+                    continue;
+                }
+
                 var officeResult = Office.Create(
                     id: terminal.Id,
                     phones: phonesResult.Result,
                     coordinates: coordinatesResult.Result,
-                    worktables: terminal.Worktables,
+                    worktTime: workTimeResult.Result,
                     code: terminal.Code,
                     cityCode: city.Id,
                     uuid: terminal.Uuid,
@@ -88,12 +102,17 @@ public sealed class WriteToDBExecutor : IWriteToDBExecutor
                     continue;
                 }
 
-                var addAddressResult = officeResult.Result.SetAddress(terminal.FullAddress, _addressParser);
-
-                if (!addAddressResult.Ok)
+                if (terminal.FullAddress is not null)
                 {
-                    errors.Add($"Terminal {terminal.Id}. {addAddressResult.Error}");
-                    continue;
+                    var addAddressResult = _addressParser.Pars(terminal.FullAddress);
+                    
+                    if (!addAddressResult.Ok)
+                    {
+                        errors.Add($"Terminal {terminal.Id}. {addAddressResult.Error}");
+                        continue;
+                    }
+
+                    officeResult.Result.SetAddress(addAddressResult.Result);
                 }
 
                 offices.Add(officeResult.Result);

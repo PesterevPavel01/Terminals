@@ -1,4 +1,5 @@
 using Terminals.AddressParser.Extensions;
+using Terminals.WorkTimeParser.Extensions;
 using Terminals.SyncService;
 using Terminals.SyncService.Definitions.Common;
 using Terminals.SyncService.Definitions.DbContext;
@@ -15,6 +16,8 @@ builder.Logging.AddStructuredLogging();
 builder.Services.AddApplicationServices();
 
 builder.Services.AddDefaultAdressParser();
+
+builder.Services.AddDefaultWorkTimeParser();
 
 var host = builder.Build();
 

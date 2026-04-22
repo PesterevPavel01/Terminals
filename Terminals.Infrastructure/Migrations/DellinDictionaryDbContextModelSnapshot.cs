@@ -21,7 +21,7 @@ namespace Terminals.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("TerminalDataLoader.Contracts.Entities.Office", b =>
+            modelBuilder.Entity("Terminals.Contracts.Entities.Office", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -44,9 +44,8 @@ namespace Terminals.Infrastructure.Migrations
                     b.Property<string>("AddressStreet")
                         .HasColumnType("text");
 
-                    b.Property<string>("CityCode")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("CityCode")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Code")
                         .HasMaxLength(50)
@@ -58,7 +57,6 @@ namespace Terminals.Infrastructure.Migrations
                         .HasColumnType("character varying(50)");
 
                     b.Property<int?>("Type")
-                        .HasMaxLength(20)
                         .HasColumnType("integer");
 
                     b.Property<string>("Uuid")
@@ -76,12 +74,14 @@ namespace Terminals.Infrastructure.Migrations
 
                     b.HasIndex("Uuid");
 
+                    b.HasIndex("AddressCity", "AddressRegion");
+
                     b.ToTable("Office", (string)null);
                 });
 
-            modelBuilder.Entity("TerminalDataLoader.Contracts.Entities.Office", b =>
+            modelBuilder.Entity("Terminals.Contracts.Entities.Office", b =>
                 {
-                    b.OwnsOne("TerminalDataLoader.Contracts.Entities.Coordinates", "Coordinates", b1 =>
+                    b.OwnsOne("Terminals.Contracts.Entities.Coordinates", "Coordinates", b1 =>
                         {
                             b1.Property<int>("OfficeId")
                                 .HasColumnType("integer");
@@ -104,7 +104,7 @@ namespace Terminals.Infrastructure.Migrations
                                 .HasForeignKey("OfficeId");
                         });
 
-                    b.OwnsOne("TerminalDataLoader.Contracts.Entities.Phone", "Phones", b1 =>
+                    b.OwnsOne("Terminals.Contracts.Entities.Phone", "Phones", b1 =>
                         {
                             b1.Property<int>("OfficeId")
                                 .HasColumnType("integer");

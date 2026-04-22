@@ -32,6 +32,9 @@ namespace Terminals.Infrastructure.ModelConfigurations
             builder.HasIndex(x => x.AddressCity)
                 .IsUnique(false);
 
+            builder.HasIndex(x => new { x.AddressCity, x.AddressRegion })
+                .IsUnique(false);
+
             builder.OwnsOne(x => x.Coordinates, coordinatesBuilder =>
             {
                 coordinatesBuilder.ToJson();

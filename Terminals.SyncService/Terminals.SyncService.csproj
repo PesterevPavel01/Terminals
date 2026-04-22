@@ -16,5 +16,6 @@
     <ProjectReference Include="..\Terminals.AddressParser\Terminals.AddressParser.csproj" />
     <ProjectReference Include="..\Terminals.Contracts\Terminals.Contracts.csproj" />
     <ProjectReference Include="..\Terminals.Infrastructure\Terminals.Infrastructure.csproj" />
+    <ProjectReference Include="..\Terminals.WorkTimeParser\Terminals.WorkTimeParser.csproj" />
   </ItemGroup>
 </Project>

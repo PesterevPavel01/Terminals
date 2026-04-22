@@ -38,7 +38,7 @@ public sealed class Office
         string id,
         Phone phones,
         Coordinates coordinates,
-        WorktablesDto? worktables,
+        string worktTime,
         string? code,
         int? cityCode,
         string? uuid,
@@ -50,9 +50,6 @@ public sealed class Office
         if(!int.TryParse(id, out _))
             return Operation.Error("Office id must be numeric");
 
-        if (worktables is null)
-            return Operation.Error("Work tables not found!");
-
         var office = new Office(int.Parse(id));
 
         if (!string.IsNullOrWhiteSpace(code))
@@ -60,8 +57,11 @@ public sealed class Office
 
         if(cityCode is null)
             return Operation.Error("City code not found!");
-        
+
         office.CityCode = (int)cityCode;
+
+        if (string.IsNullOrWhiteSpace(worktTime))
+            return Operation.Error("work time not found!");
 
         if (!string.IsNullOrWhiteSpace(uuid))
             office.Uuid = uuid;
@@ -72,33 +72,22 @@ public sealed class Office
 
         office.Coordinates = coordinates;
 
-        var setWorkTimeResult = office.SetWorkTime(worktables);
-
-        if (!setWorkTimeResult.Ok)
-            return Operation.Error(setWorkTimeResult.Error);
+        office.WorkTime = worktTime;
 
         return office;
     }
 
-    public Operation<bool, string> SetAddress(string? fullAddress, IAddressParser addressParser) 
+    public Operation<bool, string> SetAddress(FullAddressDto fullAdress) 
     {
-        if (fullAddress is null)
-            return true;
+        AddressRegion = fullAdress.AddressRegion;
 
-        var result = addressParser.Pars(fullAddress);
+        AddressCity = fullAdress.AddressCity;
 
-        if (!result.Ok)
-            return Operation.Error(result.Error);
+        AddressStreet = fullAdress.AddressStreet;
 
-        AddressRegion = result.Result.AddressRegion;
+        AddressHouseNumber = fullAdress.AddressHouseNumber;
 
-        AddressCity = result.Result.AddressCity;
-
-        AddressStreet = result.Result.AddressStreet;
-
-        AddressHouseNumber = result.Result.AddressHouseNumber;
-
-        AddressApartment = result.Result.AddressApartment;
+        AddressApartment = fullAdress.AddressApartment;
 
         return true;
     }
@@ -119,16 +108,6 @@ public sealed class Office
             Type = OfficeType.POSTAMAT;
         else if(isWarehouse)
             Type = OfficeType.WAREHOUSE;
-
-        return true;
-    }
-
-    private Operation<bool, string> SetWorkTime(WorktablesDto worktables)
-    {
-        if (worktables is null)
-            return Operation.Error("Work tables not found!");
-
-        WorkTime = JsonSerializer.Serialize(worktables);
 
         return true;
     }

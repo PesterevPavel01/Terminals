@@ -33,7 +33,7 @@ public static class TerminalsEndpoint
             if (!result.Ok)
                 return Results.BadRequest(result.Error);
 
-            return Results.Ok(result);
+            return Results.Ok(result.Result);
         })
         .Produces(200)
         .ProducesProblem(401)
@@ -59,7 +59,7 @@ public static class TerminalsEndpoint
                     if (!result.Ok)
                         return Results.BadRequest(result.Error);
 
-                    return Results.Ok(result);
+                    return Results.Ok(result.Result);
                 })
         .Produces(200)
         .ProducesProblem(401)
