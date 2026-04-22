@@ -3,6 +3,9 @@ using Terminals.SyncService.Application.Interfaces;
 
 namespace Terminals.SyncService.Application
 {
+    /// <summary>
+    /// Manager that orchestrates the synchronization process
+    /// </summary>
     public sealed class SyncManager : ISyncManager
     {
         private readonly IExistingDataCleanExecutor _existingDataCleanExecutor;
@@ -18,6 +21,7 @@ namespace Terminals.SyncService.Application
             _readFromFileExecutor = readFromFile;
         }
 
+        /// <inheritdoc />
         public async Task<Operation<bool, string>> SyncAsync(CancellationToken cancellationToken)
         {
             var cleanResult = await _existingDataCleanExecutor.ExecuteAsync(cancellationToken);

@@ -5,8 +5,12 @@ using Terminals.SyncService.Application.Interfaces;
 
 namespace Terminals.SyncService.Application.Messages;
 
+/// <summary>
+/// Executor for reading terminal data from JSON file
+/// </summary>
 public sealed class ReadFromFileExecutor : IReadFromFileExecutor
 {
+    /// <inheritdoc />
     public async Task<Operation<CityTerminalsDto, string>> ExecuteAsync(CancellationToken cancellationToken)
     {
         var homePath = AppContext.BaseDirectory;

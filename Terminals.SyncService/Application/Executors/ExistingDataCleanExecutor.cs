@@ -6,6 +6,9 @@ using Terminals.SyncService.Application.Interfaces;
 
 namespace Terminals.SyncService.Application.Messages;
 
+/// <summary>
+/// Executor for cleaning existing data before synchronization
+/// </summary>
 public sealed class ExistingDataCleanExecutor : IExistingDataCleanExecutor
 {
     private readonly DellinDictionaryDbContext _dbContext;
@@ -15,6 +18,7 @@ public sealed class ExistingDataCleanExecutor : IExistingDataCleanExecutor
         _dbContext = dbContext;
     }
 
+    /// <inheritdoc />
     public async Task<Operation<int, string>> ExecuteAsync(CancellationToken cancellationToken)
     {
         int deletedCount;

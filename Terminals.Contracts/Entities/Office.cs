@@ -1,8 +1,6 @@
 ﻿using Calabonga.OperationResults;
 using Infrastructure.Contracts.Enums;
-using System.Text.Json;
 using Terminals.Contracts.Dto;
-using Terminals.Contracts.Interfaces;
 
 namespace Terminals.Contracts.Entities;
 
@@ -10,7 +8,15 @@ public sealed class Office
 {
     public const short CodesMaxLength = 50;
 
-    public const int WorkTimeLength = 8192;
+    public const int WorkTimeMaxLength = 255;
+
+    public const int AddressRegionMaxLength = 255;
+
+    public const int AddressCityMaxLength = 100;
+
+    public const int AddressStreetMaxLength = 255;
+
+    public const int AddressHouseNumberMaxLength = 100;
 
     public const string DefaultCountryCode = "Ru";
     protected Office( int id)
@@ -19,19 +25,31 @@ public sealed class Office
     }
 
     public int Id { get; private set; }
+
     public string? Code { get; private set; }
+
     public int CityCode { get; private set; }
+
     public string? Uuid { get; private set; }
+
     public OfficeType? Type { get; private set; }
+
     public string CountryCode { get; private set; }
+
     public string? AddressRegion { get; private set; }
+
     public string? AddressCity { get; private set; }
+
     public string? AddressStreet { get; private set; }
+
     public string? AddressHouseNumber { get; private set; }
+
     public int? AddressApartment { get; private set; }
+
     public string WorkTime { get; private set; }
 
     public Coordinates Coordinates { get; private set; }
+
     public Phone Phones { get; private set; }
 
     public static Operation<Office, string> Create(

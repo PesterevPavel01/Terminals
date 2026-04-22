@@ -33,16 +33,20 @@ namespace Terminals.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("AddressCity")
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("AddressHouseNumber")
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("AddressRegion")
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
 
                     b.Property<string>("AddressStreet")
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
 
                     b.Property<int>("CityCode")
                         .HasColumnType("integer");
@@ -65,8 +69,8 @@ namespace Terminals.Infrastructure.Migrations
 
                     b.Property<string>("WorkTime")
                         .IsRequired()
-                        .HasMaxLength(8192)
-                        .HasColumnType("character varying(8192)");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
 
                     b.HasKey("Id");
 
@@ -76,7 +80,7 @@ namespace Terminals.Infrastructure.Migrations
 
                     b.HasIndex("AddressCity", "AddressRegion");
 
-                    b.ToTable("Office", (string)null);
+                    b.ToTable("offices", (string)null);
                 });
 
             modelBuilder.Entity("Terminals.Contracts.Entities.Office", b =>
@@ -94,7 +98,7 @@ namespace Terminals.Infrastructure.Migrations
 
                             b1.HasKey("OfficeId");
 
-                            b1.ToTable("Office");
+                            b1.ToTable("offices");
 
                             b1
                                 .ToJson("Coordinates")
@@ -123,7 +127,7 @@ namespace Terminals.Infrastructure.Migrations
 
                             b1.HasKey("OfficeId");
 
-                            b1.ToTable("Office");
+                            b1.ToTable("offices");
 
                             b1
                                 .ToJson("Phones")

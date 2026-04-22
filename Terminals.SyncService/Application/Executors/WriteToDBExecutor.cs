@@ -8,12 +8,13 @@ using Terminals.SyncService.Application.Interfaces;
 
 namespace Terminals.SyncService.Application.Messages;
 
+/// <summary>
+/// Executor for writing terminal data to the database
+/// </summary>
 public sealed class WriteToDBExecutor : IWriteToDBExecutor
 {
     private readonly DellinDictionaryDbContext _dbContext;
-
     private readonly IAddressParser _addressParser;
-
     private readonly IWorkTimeParser _workTimeParser;
 
     public WriteToDBExecutor(
@@ -26,6 +27,7 @@ public sealed class WriteToDBExecutor : IWriteToDBExecutor
         _workTimeParser = workTimeParser;
     }
 
+    /// <inheritdoc />
     public async Task<Operation<int, List<string>>> ExecuteAsync(CityTerminalsDto cityTerminals, CancellationToken cancellationToken)
     {
         List<Office> offices = [];

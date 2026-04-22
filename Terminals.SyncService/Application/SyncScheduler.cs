@@ -32,7 +32,6 @@ public sealed class SyncScheduler : ISyncScheduler
         }
         catch (TaskCanceledException)
         {
-            _logger.LogInformation("Waiting was cancelled");
             return Operation.Error("Waiting was cancelled");
         }
 

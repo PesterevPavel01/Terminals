@@ -29,7 +29,7 @@ public class Worker : BackgroundService
 
             if (!waitResult.Ok)
             {
-                _logger.LogInformation("Worker stopping due to cancellation during wait");
+                _logger.LogInformation($"Ошибка импорта: {waitResult.Error}");
                 break;
             }
             
@@ -37,15 +37,6 @@ public class Worker : BackgroundService
                 break;
 
             var syncResult = await _syncManager.SyncAsync(stoppingToken);
-
-            if (!syncResult.Ok)
-            {
-                _logger.LogError("Synchronization failed: {Error}", syncResult.Error);
-            }
-            else
-            {
-                _logger.LogInformation("Synchronization completed successfully");
-            }
         }
 
         _logger.LogInformation("Worker stopped");
